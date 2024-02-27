@@ -13,6 +13,5 @@ RUN dotnet publish -c Release -o out
 # Genertae runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
-Expose 5000
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "TestDemoApp.dll"]
