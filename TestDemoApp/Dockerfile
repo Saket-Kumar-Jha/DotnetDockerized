@@ -11,14 +11,14 @@ RUN dotnet restore
 
 # Copy the project files and Build our release
 COPY . ./
-RUN dotnet build -c Release -o out 
+RUN dotnet build -c Release -o /app/build
 
 # Genertae runtime Image
 FROM build AS publish
-RUN dotnet publish -c Release -o out /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/out .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TestDemoApp.dll"]
